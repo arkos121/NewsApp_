@@ -15,7 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object ApiEndpoint {
 
     const val BASE_URL = "https://newsapi.org/v2/"
-
+//    const val BASE_URL="https://newsapi.org/v2/everything?q=tesla&from=2024-08-12&sortBy=publishedAt&apiKey=a50e64baeb734e69b1b9ade276cdb44b/"
     fun getApiClient(): Retrofit {
         return Retrofit.Builder()
                 .baseUrl(BASE_URL)

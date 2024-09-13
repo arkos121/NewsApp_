@@ -9,12 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.azhar.newsapp.R
 import com.azhar.newsapp.adapter.NewsAdapter
+import com.azhar.newsapp.databinding.RagementNewsBinding
+import com.azhar.newsapp.databinding.RagmentSearchBinding
 import com.azhar.newsapp.model.ModelArticle
 import com.azhar.newsapp.model.ModelNews
 import com.azhar.newsapp.networking.ApiEndpoint.getApiClient
 import com.azhar.newsapp.networking.ApiInterface
 import com.azhar.newsapp.util.Utils.getCountry
-import kotlinx.android.synthetic.main.fragement_news.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -32,30 +33,31 @@ import java.util.*
 class FragmentSports : Fragment() {
 
     companion object {
-        const val API_KEY = "API KEY ada di Video YT"
+        const val API_KEY = "a50e64baeb734e69b1b9ade276cdb44b"
     }
 
     var strCategory = "sports"
     var strCountry: String? = null
     var modelArticle: MutableList<ModelArticle> = ArrayList()
     var newsAdapter: NewsAdapter? = null
-
+private lateinit var binding: RagementNewsBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragement_news, container, false)
+        binding = RagementNewsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        tvTitle.setText("Berita Olahraga")
+        binding.tvTitle.setText("Berita Olahraga")
 
-        rvListNews.setLayoutManager(LinearLayoutManager(context))
-        rvListNews.setHasFixedSize(true)
-        rvListNews.showShimmerAdapter()
+        binding.rvListNews.setLayoutManager(LinearLayoutManager(context))
+        binding.rvListNews.setHasFixedSize(true)
+        binding.rvListNews.showShimmerAdapter()
 
         //reload news
-        imageRefresh.setOnClickListener {
-            rvListNews.showShimmerAdapter()
+        binding.imageRefresh.setOnClickListener {
+            binding.rvListNews.showShimmerAdapter()
             getListNews()
         }
 
@@ -77,9 +79,9 @@ class FragmentSports : Fragment() {
                     if (response.isSuccessful && response.body() != null) {
                         modelArticle = response.body()?.modelArticle as MutableList<ModelArticle>
                         newsAdapter = NewsAdapter(modelArticle, context!!)
-                        rvListNews.adapter = newsAdapter
+                        binding.rvListNews.adapter = newsAdapter
                         newsAdapter?.notifyDataSetChanged()
-                        rvListNews.hideShimmerAdapter()
+                        binding.rvListNews.hideShimmerAdapter()
                     }
                 }
 

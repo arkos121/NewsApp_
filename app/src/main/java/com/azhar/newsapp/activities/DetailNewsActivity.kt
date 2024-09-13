@@ -9,8 +9,8 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
 import com.azhar.newsapp.R
+import com.azhar.newsapp.databinding.ActivityDetailNewsBinding
 import com.azhar.newsapp.model.ModelArticle
-import kotlinx.android.synthetic.main.activity_detail_news.*
 
 /**
  * Created by Azhar Rivaldi on 10-04-2021
@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.activity_detail_news.*
  */
 
 class DetailNewsActivity : AppCompatActivity() {
-
+    private lateinit var binding: ActivityDetailNewsBinding
     companion object {
         const val DETAIL_NEWS = "DETAIL_NEWS"
     }
@@ -34,14 +34,15 @@ class DetailNewsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail_news)
+        binding = ActivityDetailNewsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.toolbar)
         assert(supportActionBar != null)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        progressBar.max = 100
+        binding.progressBar.max = 100
 
         //get data intent
         modelArticle = intent.getParcelableExtra(DETAIL_NEWS)
@@ -51,11 +52,11 @@ class DetailNewsActivity : AppCompatActivity() {
             strTitle = modelArticle?.title
             strSubTitle = modelArticle?.url
 
-            tvTitle.text = strTitle
-            tvSubTitle.text = strSubTitle
+            binding.tvTitle.text = strTitle
+            binding.tvSubTitle.text = strSubTitle
 
             //share news
-            imageShare.setOnClickListener {
+            binding.imageShare.setOnClickListener {
                 val share = Intent(Intent.ACTION_SEND)
                 share.type = "text/plain"
                 share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
@@ -69,21 +70,21 @@ class DetailNewsActivity : AppCompatActivity() {
     }
 
     private fun showWebView() {
-        webView.settings.loadsImagesAutomatically = true
-        webView.settings.javaScriptEnabled = true
-        webView.settings.domStorageEnabled = true
-        webView.settings.setSupportZoom(true)
-        webView.settings.builtInZoomControls = true
-        webView.settings.displayZoomControls = false
-        webView.scrollBarStyle = View.SCROLLBARS_INSIDE_OVERLAY
-        webView.loadUrl(strNewsURL!!)
+        binding.webView.settings.loadsImagesAutomatically = true
+        binding.webView.settings.javaScriptEnabled = true
+        binding.webView.settings.domStorageEnabled = true
+        binding.webView.settings.setSupportZoom(true)
+        binding.webView.settings.builtInZoomControls = true
+        binding.webView.settings.displayZoomControls = false
+        binding.webView.scrollBarStyle = View.SCROLLBARS_INSIDE_OVERLAY
+        binding.webView.loadUrl(strNewsURL!!)
 
-        progressBar.progress = 0
+        binding.progressBar.progress = 0
 
-        webView.webViewClient = object : WebViewClient() {
+        binding.webView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView, newUrl: String): Boolean {
                 view.loadUrl(newUrl)
-                progressBar.progress = 0
+                binding.progressBar.progress = 0
                 return true
             }
 
@@ -93,7 +94,7 @@ class DetailNewsActivity : AppCompatActivity() {
             }
 
             override fun onPageFinished(view: WebView, urlPage: String) {
-                progressBar.visibility = View.GONE
+                binding.progressBar.visibility = View.GONE
                 invalidateOptionsMenu()
             }
         }

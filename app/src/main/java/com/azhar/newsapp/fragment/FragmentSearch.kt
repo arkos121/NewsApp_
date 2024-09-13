@@ -13,11 +13,12 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.azhar.newsapp.R
 import com.azhar.newsapp.adapter.NewsAdapter
+import com.azhar.newsapp.databinding.RagementNewsBinding
+import com.azhar.newsapp.databinding.RagmentSearchBinding
 import com.azhar.newsapp.model.ModelArticle
 import com.azhar.newsapp.model.ModelNews
 import com.azhar.newsapp.networking.ApiEndpoint.getApiClient
 import com.azhar.newsapp.networking.ApiInterface
-import kotlinx.android.synthetic.main.fragment_search.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -35,37 +36,38 @@ import java.util.*
 class FragmentSearch : Fragment() {
 
     companion object {
-        const val API_KEY = "API KEY ada di Video YT"
+        const val API_KEY = "a50e64baeb734e69b1b9ade276cdb44b"
     }
-
+    private lateinit var binding: RagmentSearchBinding
     var strKeywords: String = ""
     var modelArticle: MutableList<ModelArticle> = ArrayList()
     var newsAdapter: NewsAdapter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_search, container, false)
+        binding = RagmentSearchBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        rvListNews.setLayoutManager(LinearLayoutManager(context))
-        rvListNews.setHasFixedSize(true)
-        rvListNews.hideShimmerAdapter()
-        imageClear.setVisibility(View.GONE)
-        linearNews.setVisibility(View.GONE)
+        binding.rvListNews.setLayoutManager(LinearLayoutManager(context))
+        binding.rvListNews.setHasFixedSize(true)
+        binding.rvListNews.hideShimmerAdapter()
+        binding.imageClear.setVisibility(View.GONE)
+        binding.linearNews.setVisibility(View.GONE)
 
-        imageClear.setOnClickListener {
-            etSearchView.getText().clear()
+        binding.imageClear.setOnClickListener {
+            binding.etSearchView.getText().clear()
             modelArticle.clear()
-            linearNews.setVisibility(View.GONE)
-            imageClear.setVisibility(View.GONE)
+            binding.linearNews.setVisibility(View.GONE)
+            binding.imageClear.setVisibility(View.GONE)
         }
 
         //action search
-        etSearchView.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
+        binding.etSearchView.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                strKeywords = etSearchView.getText().toString()
+                strKeywords = binding.etSearchView.getText().toString()
                 if (strKeywords.isEmpty()) {
                     Toast.makeText(context, "Form tidak boleh kosong!", Toast.LENGTH_SHORT).show()
                 } else {
@@ -80,7 +82,7 @@ class FragmentSearch : Fragment() {
     }
 
     private fun getListNews(strKeywords: String) {
-        rvListNews.showShimmerAdapter()
+        binding.rvListNews.showShimmerAdapter()
         modelArticle.clear()
 
         //set api
@@ -91,11 +93,11 @@ class FragmentSearch : Fragment() {
                 if (response.isSuccessful && response.body() != null) {
                     modelArticle = response.body()?.modelArticle as MutableList<ModelArticle>
                     newsAdapter = NewsAdapter(modelArticle, context!!)
-                    rvListNews.adapter = newsAdapter
+                    binding.rvListNews.adapter = newsAdapter
                     newsAdapter?.notifyDataSetChanged()
-                    rvListNews.hideShimmerAdapter()
-                    linearNews.visibility = View.VISIBLE
-                    imageClear.visibility = View.VISIBLE
+                    binding.rvListNews.hideShimmerAdapter()
+                    binding.linearNews.visibility = View.VISIBLE
+                    binding.imageClear.visibility = View.VISIBLE
                 }
             }
 

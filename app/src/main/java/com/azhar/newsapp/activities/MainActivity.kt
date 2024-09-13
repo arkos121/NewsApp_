@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import com.azhar.newsapp.R
 import com.azhar.newsapp.fragment.*
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
-import kotlinx.android.synthetic.main.activity_main.*
+import com.azhar.newsapp.databinding.ActivityDetailNewsBinding
 
 /**
  * Created by Azhar Rivaldi on 10-04-2021
@@ -18,11 +18,14 @@ import kotlinx.android.synthetic.main.activity_main.*
  */
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityDetailNewsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityDetailNewsBinding.inflate(layoutInflater)
         setContentView(R.layout.activity_main)
 
+        val bottomNavigation=findViewById<ChipNavigationBar>(R.id.bottomNavigation)
         bottomNavigation.setItemSelected(R.id.menuHeadline, true)
 
         setupFragment(FragmentHeadline())

@@ -16,7 +16,6 @@ import com.azhar.newsapp.util.Utils.DateTimeHourAgo
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.makeramen.roundedimageview.RoundedImageView
-import kotlinx.android.synthetic.main.list_item_news.view.*
 
 /**
  * Created by Azhar Rivaldi on 10-04-2021
@@ -28,7 +27,7 @@ import kotlinx.android.synthetic.main.list_item_news.view.*
  */
 
 class NewsAdapter(private val modelArticles: MutableList<ModelArticle>, private val context: Context) :
-        RecyclerView.Adapter<ViewHolder>() {
+        RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.list_item_news, parent, false)
@@ -36,6 +35,12 @@ class NewsAdapter(private val modelArticles: MutableList<ModelArticle>, private 
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.frameListNews = holder.itemView.findViewById(R.id.frameListNews)
+            holder.tvTimeAgo = holder.itemView.findViewById(R.id.tvTimeAgo)
+            holder.tvNameSource = holder.itemView.findViewById(R.id.tvNameSource)
+            holder.tvTitleNews = holder.itemView.findViewById(R.id.tvTitleNews)
+            holder.tvDateTime = holder.itemView.findViewById(R.id.tvDateTime)
+            holder.imageThumbnail = holder.itemView.findViewById(R.id.imageThumbnail)
         val model = modelArticles[position]
 
         if (model.urlToImage == null) {
@@ -68,21 +73,21 @@ class NewsAdapter(private val modelArticles: MutableList<ModelArticle>, private 
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var frameListNews: FrameLayout
-        var tvTimeAgo: TextView
-        var tvNameSource: TextView
-        var tvTitleNews: TextView
-        var tvDateTime: TextView
-        var imageThumbnail: RoundedImageView
+        lateinit var frameListNews: FrameLayout
+        lateinit var tvTimeAgo: TextView
+        lateinit var tvNameSource: TextView
+        lateinit var tvTitleNews: TextView
+        lateinit var tvDateTime: TextView
+        lateinit var imageThumbnail: RoundedImageView
 
-        init {
-            frameListNews = itemView.frameListNews
-            tvTimeAgo = itemView.tvTimeAgo
-            tvNameSource = itemView.tvNameSource
-            tvTitleNews = itemView.tvTitleNews
-            tvDateTime = itemView.tvDateTime
-            imageThumbnail = itemView.imageThumbnail
-        }
+//        init {
+//            frameListNews = itemView.frameListNews
+//            tvTimeAgo = itemView.tvTimeAgo
+//            tvNameSource = itemView.tvNameSource
+//            tvTitleNews = itemView.tvTitleNews
+//            tvDateTime = itemView.tvDateTime
+//            imageThumbnail = itemView.imageThumbnail
+//        }
     }
 
 }

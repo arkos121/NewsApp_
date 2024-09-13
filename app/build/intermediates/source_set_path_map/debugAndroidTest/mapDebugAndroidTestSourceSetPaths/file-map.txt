@@ -1,0 +1,5 @@
+com.azhar.newsapp.test.app-jetified-core-1.6.1-0 /home/bharath/.gradle/caches/transforms-4/24851db60c6b84baa6ded90e216b5066/transformed/jetified-core-1.6.1/res
+com.azhar.newsapp.test.app-androidTest-1 /home/bharath/StudioProjects/New/NewsApp/app/build/generated/res/resValues/androidTest/debug
+com.azhar.newsapp.test.app-mergeDebugAndroidTestResources-2 /home/bharath/StudioProjects/New/NewsApp/app/build/intermediates/incremental/debugAndroidTest/mergeDebugAndroidTestResources/merged.dir
+com.azhar.newsapp.test.app-mergeDebugAndroidTestResources-3 /home/bharath/StudioProjects/New/NewsApp/app/build/intermediates/incremental/debugAndroidTest/mergeDebugAndroidTestResources/stripped.dir
+com.azhar.newsapp.test.app-debugAndroidTest-4 /home/bharath/StudioProjects/New/NewsApp/app/build/intermediates/merged_res/debugAndroidTest/mergeDebugAndroidTestResources

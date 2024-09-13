@@ -1,6 +1,7 @@
 package com.azhar.newsapp.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,12 +10,14 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.azhar.newsapp.R
 import com.azhar.newsapp.adapter.NewsAdapter
+import com.azhar.newsapp.databinding.RagementNewsBinding
 import com.azhar.newsapp.model.ModelArticle
 import com.azhar.newsapp.model.ModelNews
 import com.azhar.newsapp.networking.ApiEndpoint.getApiClient
 import com.azhar.newsapp.networking.ApiInterface
 import com.azhar.newsapp.util.Utils.getCountry
-import kotlinx.android.synthetic.main.fragement_news.*
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -32,29 +35,30 @@ import java.util.*
 class FragmentHeadline : Fragment() {
 
     companion object {
-        const val API_KEY = "API KEY ada di Video YT"
+        const val API_KEY = "a50e64baeb734e69b1b9ade276cdb44b"
     }
-
+    private lateinit var binding: RagementNewsBinding
     var strCountry: String? = null
     var modelArticle: MutableList<ModelArticle> = ArrayList()
     var newsAdapter: NewsAdapter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragement_news, container, false)
+        binding = RagementNewsBinding.inflate(inflater,container,false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        tvTitle.setText("Berita Utama")
+        binding.tvTitle.setText("Berita Utama")
 
-        rvListNews.setLayoutManager(LinearLayoutManager(context))
-        rvListNews.setHasFixedSize(true)
-        rvListNews.showShimmerAdapter()
+        binding.rvListNews.setLayoutManager(LinearLayoutManager(context))
+        binding.rvListNews.setHasFixedSize(true)
+        binding.rvListNews.showShimmerAdapter()
 
         //reload news
-        imageRefresh.setOnClickListener {
-            rvListNews.showShimmerAdapter()
+        binding.imageRefresh.setOnClickListener {
+            binding.rvListNews.showShimmerAdapter()
             getListNews()
         }
 
@@ -72,16 +76,26 @@ class FragmentHeadline : Fragment() {
             val apiInterface = getApiClient().create(ApiInterface::class.java)
             val call = apiInterface.getHeadlines(strCountry, API_KEY)
             call.enqueue(object : Callback<ModelNews> {
+
                 override fun onResponse(call: Call<ModelNews>, response: Response<ModelNews>) {
-                    if (response.isSuccessful && response.body() != null) {
-                        modelArticle = response.body()?.modelArticle as MutableList<ModelArticle>
-                        newsAdapter = NewsAdapter(modelArticle, context!!)
-                        rvListNews.adapter = newsAdapter
-                        newsAdapter?.notifyDataSetChanged()
-                        rvListNews.hideShimmerAdapter()
+                    Log.d("response", "onResponse: $response")
+                    if (response.isSuccessful) {
+                        Log.d("TAG", "onResponse: $response")
+//                        modelArticle = response.body()?.modelArticle as MutableList<ModelArticle>
+//                        val typeToken = object : TypeToken<ModelArticle>() {}.type
+//                        modelArticle=Gson().fromJson(response.body(),typeToken)
+
+                        val newsResponse = response.body()
+                        newsResponse?.let {
+                            modelArticle = it.modelArticle.toMutableList()
+                            Log.d("dsfdf", "onResponse: $modelArticle")
+                            newsAdapter = NewsAdapter(modelArticle, context!!)
+                            binding.rvListNews.adapter = newsAdapter
+                            newsAdapter?.notifyDataSetChanged()
+                            binding.rvListNews.hideShimmerAdapter()
+                        }
                     }
                 }
-
                 override fun onFailure(call: Call<ModelNews>, t: Throwable) {
                     Toast.makeText(context, "Oops, jaringan kamu bermasalah.", Toast.LENGTH_SHORT).show()
                 }

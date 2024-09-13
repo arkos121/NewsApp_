@@ -1,0 +1,22 @@
+[
+    {
+        "merged": "com.azhar.newsapp-mergeDebugResources-39:/layout/activity_main.xml",
+        "source": "com.azhar.newsapp-main-42:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.azhar.newsapp-mergeDebugResources-39:/layout/activity_detail_news.xml",
+        "source": "com.azhar.newsapp-main-42:/layout/activity_detail_news.xml"
+    },
+    {
+        "merged": "com.azhar.newsapp-mergeDebugResources-39:/layout/list_item_news.xml",
+        "source": "com.azhar.newsapp-main-42:/layout/list_item_news.xml"
+    },
+    {
+        "merged": "com.azhar.newsapp-mergeDebugResources-39:/layout/ragement_news.xml",
+        "source": "com.azhar.newsapp-main-42:/layout/ragement_news.xml"
+    },
+    {
+        "merged": "com.azhar.newsapp-mergeDebugResources-39:/layout/ragment_search.xml",
+        "source": "com.azhar.newsapp-main-42:/layout/ragment_search.xml"
+    }
+]

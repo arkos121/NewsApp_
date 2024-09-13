@@ -1,0 +1,7 @@
+#Thu Sep 12 17:51:08 IST 2024
+base.0=/home/bharath/StudioProjects/New/NewsApp/app/build/intermediates/dex/debugAndroidTest/mergeExtDexDebugAndroidTest/classes.dex
+base.1=/home/bharath/StudioProjects/New/NewsApp/app/build/intermediates/dex/debugAndroidTest/mergeProjectDexDebugAndroidTest/0/classes.dex
+path.0=classes.dex
+path.1=0/classes.dex
+renamed.0=classes.dex
+renamed.1=classes2.dex

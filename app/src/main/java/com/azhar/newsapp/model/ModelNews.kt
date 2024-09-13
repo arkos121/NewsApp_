@@ -1,6 +1,8 @@
 package com.azhar.newsapp.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 /**
  * Created by Azhar Rivaldi on 10-04-2021

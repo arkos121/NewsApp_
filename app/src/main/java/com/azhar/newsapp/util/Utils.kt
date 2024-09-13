@@ -44,7 +44,7 @@ object Utils {
 
     fun getCountry(): String {
         val locale = Locale.getDefault()
-        val strCountry = locale.country
-        return strCountry.toLowerCase()
+        val strCountry = "us"
+        return strCountry.lowercase(Locale.ROOT)
     }
 }
