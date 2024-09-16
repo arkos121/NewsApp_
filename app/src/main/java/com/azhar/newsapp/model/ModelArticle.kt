@@ -3,7 +3,9 @@ package com.azhar.newsapp.model
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.parcel.Parcelize
+import javax.inject.Inject
 
 /**
  * Created by Azhar Rivaldi on 10-04-2021
@@ -14,7 +16,7 @@ import kotlinx.android.parcel.Parcelize
  * Youtube Channel : https://bit.ly/2PJMowZ
  */
 
-data class ModelArticle(
+data class ModelArticle (
         @SerializedName("source")
         var modelSource: ModelSource?,
 

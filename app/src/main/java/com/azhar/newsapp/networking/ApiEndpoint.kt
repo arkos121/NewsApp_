@@ -2,6 +2,7 @@ package com.azhar.newsapp.networking
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Inject
 
 /**
  * Created by Azhar Rivaldi on 10-04-2021

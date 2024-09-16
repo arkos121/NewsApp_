@@ -1,16 +1,14 @@
 package com.azhar.newsapp.activities
 
 import android.content.Intent
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
-import android.webkit.WebView
-import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
-import com.azhar.newsapp.R
 import com.azhar.newsapp.databinding.ActivityDetailNewsBinding
 import com.azhar.newsapp.model.ModelArticle
+import com.azhar.newsapp.model.WebViewManager
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**
  * Created by Azhar Rivaldi on 10-04-2021
@@ -20,14 +18,16 @@ import com.azhar.newsapp.model.ModelArticle
  * Twitter : https://twitter.com/azharrvldi_
  * Youtube Channel : https://bit.ly/2PJMowZ
  */
-
+@AndroidEntryPoint
 class DetailNewsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailNewsBinding
+    private lateinit var modelArticle : ModelArticle
+    @Inject
+    lateinit var webViewManager : WebViewManager
     companion object {
         const val DETAIL_NEWS = "DETAIL_NEWS"
     }
 
-    var modelArticle: ModelArticle? = null
     var strNewsURL: String? = null
     var strTitle: String? = null
     var strSubTitle: String? = null
@@ -44,8 +44,9 @@ class DetailNewsActivity : AppCompatActivity() {
 
         binding.progressBar.max = 100
 
-        //get data intent
-        modelArticle = intent.getParcelableExtra(DETAIL_NEWS)
+//        //get data intent
+//        modelArticle = intent.getParcelableExtra(DETAIL_NEWS)!!
+
         if (modelArticle != null) {
 
             strNewsURL = modelArticle?.url
@@ -65,40 +66,44 @@ class DetailNewsActivity : AppCompatActivity() {
             }
 
             //show news
-            showWebView()
+            showWebView(strNewsURL)
         }
     }
 
-    private fun showWebView() {
-        binding.webView.settings.loadsImagesAutomatically = true
-        binding.webView.settings.javaScriptEnabled = true
-        binding.webView.settings.domStorageEnabled = true
-        binding.webView.settings.setSupportZoom(true)
-        binding.webView.settings.builtInZoomControls = true
-        binding.webView.settings.displayZoomControls = false
-        binding.webView.scrollBarStyle = View.SCROLLBARS_INSIDE_OVERLAY
-        binding.webView.loadUrl(strNewsURL!!)
+//    private fun showWebView() {
+//        binding.webView.settings.loadsImagesAutomatically = true
+//        binding.webView.settings.javaScriptEnabled = true
+//        binding.webView.settings.domStorageEnabled = true
+//        binding.webView.settings.setSupportZoom(true)
+//        binding.webView.settings.builtInZoomControls = true
+//        binding.webView.settings.displayZoomControls = false
+//        binding.webView.scrollBarStyle = View.SCROLLBARS_INSIDE_OVERLAY
+//        binding.webView.loadUrl(strNewsURL!!)
+//
+//        binding.progressBar.progress = 0
+//
+//        binding.webView.webViewClient = object : WebViewClient() {
+//            override fun shouldOverrideUrlLoading(view: WebView, newUrl: String): Boolean {
+//                view.loadUrl(newUrl)
+//                binding.progressBar.progress = 0
+//                return true
+//            }
+//
+//            override fun onPageStarted(view: WebView, urlStart: String, favicon: Bitmap) {
+//                strNewsURL = urlStart
+//                invalidateOptionsMenu()
+//            }
+//
+//            override fun onPageFinished(view: WebView, urlPage: String) {
+//                binding.progressBar.visibility = View.GONE
+//                invalidateOptionsMenu()
+//            }
+//        }
+//    }
+private fun showWebView(strNewsURL: String?) {
+    webViewManager.setWeb(strNewsURL);
 
-        binding.progressBar.progress = 0
-
-        binding.webView.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(view: WebView, newUrl: String): Boolean {
-                view.loadUrl(newUrl)
-                binding.progressBar.progress = 0
-                return true
-            }
-
-            override fun onPageStarted(view: WebView, urlStart: String, favicon: Bitmap) {
-                strNewsURL = urlStart
-                invalidateOptionsMenu()
-            }
-
-            override fun onPageFinished(view: WebView, urlPage: String) {
-                binding.progressBar.visibility = View.GONE
-                invalidateOptionsMenu()
-            }
-        }
-    }
+}
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
