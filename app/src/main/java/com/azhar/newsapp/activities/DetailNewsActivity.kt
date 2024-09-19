@@ -4,8 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.azhar.newsapp.databinding.ActivityDetailNewsBinding
 import com.azhar.newsapp.model.ModelArticle
+import com.azhar.newsapp.model.VIewModel
 import com.azhar.newsapp.model.WebViewManager
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -27,16 +29,12 @@ class DetailNewsActivity : AppCompatActivity() {
     companion object {
         const val DETAIL_NEWS = "DETAIL_NEWS"
     }
-
-    var strNewsURL: String? = null
-    var strTitle: String? = null
-    var strSubTitle: String? = null
-
+    lateinit var mvm : VIewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailNewsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+      this.mvm = ViewModelProvider(this).get(VIewModel::class.java)
         setSupportActionBar(binding.toolbar)
         assert(supportActionBar != null)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -49,57 +47,19 @@ class DetailNewsActivity : AppCompatActivity() {
 
         if (modelArticle != null) {
 
-            strNewsURL = modelArticle?.url
-            strTitle = modelArticle?.title
-            strSubTitle = modelArticle?.url
-
-            binding.tvTitle.text = strTitle
-            binding.tvSubTitle.text = strSubTitle
+            mvm.setNews(modelArticle.title,"",modelArticle.url)
+            binding.tvTitle.text = mvm.strTitle
+            binding.tvSubTitle.text=mvm.strSubTitle
 
             //share news
             binding.imageShare.setOnClickListener {
-                val share = Intent(Intent.ACTION_SEND)
-                share.type = "text/plain"
-                share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
-                share.putExtra(Intent.EXTRA_TEXT, strNewsURL)
-                startActivity(Intent.createChooser(share, "Bagikan ke : "))
+                startActivity(Intent.createChooser(mvm.share, "Share to : "))
             }
-
             //show news
-            showWebView(strNewsURL)
+            showWebView(mvm.strNewsURL)
         }
     }
 
-//    private fun showWebView() {
-//        binding.webView.settings.loadsImagesAutomatically = true
-//        binding.webView.settings.javaScriptEnabled = true
-//        binding.webView.settings.domStorageEnabled = true
-//        binding.webView.settings.setSupportZoom(true)
-//        binding.webView.settings.builtInZoomControls = true
-//        binding.webView.settings.displayZoomControls = false
-//        binding.webView.scrollBarStyle = View.SCROLLBARS_INSIDE_OVERLAY
-//        binding.webView.loadUrl(strNewsURL!!)
-//
-//        binding.progressBar.progress = 0
-//
-//        binding.webView.webViewClient = object : WebViewClient() {
-//            override fun shouldOverrideUrlLoading(view: WebView, newUrl: String): Boolean {
-//                view.loadUrl(newUrl)
-//                binding.progressBar.progress = 0
-//                return true
-//            }
-//
-//            override fun onPageStarted(view: WebView, urlStart: String, favicon: Bitmap) {
-//                strNewsURL = urlStart
-//                invalidateOptionsMenu()
-//            }
-//
-//            override fun onPageFinished(view: WebView, urlPage: String) {
-//                binding.progressBar.visibility = View.GONE
-//                invalidateOptionsMenu()
-//            }
-//        }
-//    }
 private fun showWebView(strNewsURL: String?) {
     webViewManager.setWeb(strNewsURL);
 

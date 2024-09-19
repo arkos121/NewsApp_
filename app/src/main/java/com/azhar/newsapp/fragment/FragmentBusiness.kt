@@ -37,7 +37,8 @@ class FragmentBusiness(): Fragment() {
         const val API_KEY = "a50e64baeb734e69b1b9ade276cdb44b"
     }
     private lateinit var   binding: RagementNewsBinding
-    var strCategory = "business"
+    var
+            strCategory = "business"
     var strCountry: String? = null
     var modelArticle: MutableList<ModelArticle> = ArrayList()
     var newsAdapter: NewsAdapter? = null
